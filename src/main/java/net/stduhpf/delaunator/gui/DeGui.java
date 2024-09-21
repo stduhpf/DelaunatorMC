@@ -126,8 +126,11 @@ public class DeGui extends LightweightGuiDescription {
     public DeGui() {
         // TODO: helpful tooltips
 
-        File localpath = new File(System.getProperty("user.dir") + File.separator + "images");
-        String[] files = localpath.list();
+        File localPath = new File(System.getProperty("user.dir") + File.separator + "images");
+        if(!localPath.exists()) {
+            localPath.mkdir();
+        }
+        String[] files = localPath.list();
         this.pathname = files.length > 0 ? files[0] : "No files found";
 
         // MinecraftClient client = MinecraftClient.getInstance();
@@ -241,7 +244,7 @@ public class DeGui extends LightweightGuiDescription {
             imgLoader.add(bg, 0, 1, 5, 5);
             imgLoader.add(prev_picture, 0, 1, 5, 5);
 
-            File prev_imageFile = new File(localpath.toString() + File.separator + pathname);
+            File prev_imageFile = new File(localPath.toString() + File.separator + pathname);
             if (prev_imageFile.exists()) {
                 try {
                     NativeImageBackedTexture texture = fileToTexture(prev_imageFile);
@@ -255,7 +258,7 @@ public class DeGui extends LightweightGuiDescription {
             WButton openButton = new WButton(Text.literal("Chose"));
             imgLoader.add(openButton, 1, 7, 3, 1);
             openButton.setOnClick(() -> {
-                File imageFile = new File(localpath.toString() + File.separator + pathname);
+                File imageFile = new File(localPath.toString() + File.separator + pathname);
                 if (imageFile.exists()) {
                     try {
                         NativeImageBackedTexture texture = fileToTexture(imageFile);
@@ -287,7 +290,7 @@ public class DeGui extends LightweightGuiDescription {
                 pathname = files[currentFile];
                 label.setText(Text.literal(pathname));
 
-                File imageFile = new File(localpath.toString() + File.separator + pathname);
+                File imageFile = new File(localPath.toString() + File.separator + pathname);
                 if (imageFile.exists()) {
                     try {
                         NativeImageBackedTexture texture = fileToTexture(imageFile);
@@ -314,7 +317,7 @@ public class DeGui extends LightweightGuiDescription {
                 pathname = files[currentFile];
                 label.setText(Text.literal(pathname));
 
-                File imageFile = new File(localpath.toString() + File.separator + pathname);
+                File imageFile = new File(localPath.toString() + File.separator + pathname);
                 if (imageFile.exists()) {
                     try {
                         NativeImageBackedTexture texture = fileToTexture(imageFile);
@@ -334,7 +337,7 @@ public class DeGui extends LightweightGuiDescription {
             WButton ofdButton = new WButton(Text.literal("Open img folder"));
             imgLoader.add(ofdButton, 0, 0, 5, 1);
             ofdButton.setOnClick(() -> {
-                Util.getOperatingSystem().open(localpath);
+                Util.getOperatingSystem().open(localPath);
             });
 
             label = new WLabel(Text.literal(pathname), 0xFF888888);
@@ -576,7 +579,13 @@ public class DeGui extends LightweightGuiDescription {
                 player.networkHandler.sendChatCommand("give @s minecraft:filled_map[minecraft:map_id=69]");
             }else{
                 // multiplayer
-                String path = System.getProperty("user.dir") + File.separator + "savedMaps" + File.separator + "map_69.dat";
+
+                String savedMapsPath = System.getProperty("user.dir") + File.separator + "savedMaps";
+                File f = new File(savedMapsPath);
+                if(!f.exists()){
+                    f.mkdir();
+                }
+                String path = savedMapsPath + File.separator + "map_69.dat";
                 NbtIo.write(mapItem, Paths.get(path));
                 player.sendMessage(Text.literal("WARNING: Can't directly add custom maps to server."), false);
                 player.sendMessage(Text.literal("Saved as " + path), false);
