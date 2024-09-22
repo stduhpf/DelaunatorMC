@@ -19,6 +19,7 @@ This is related to my older [delaunator](https://github.com/stduhpf/delaunator) 
 ### Download
 
 Recommended: You can download the latest build from the github-actions artifacts, go to The [Actions](https://github.com/stduhpf/DelaunatorMC/actions/workflows/build.yml) page, click the lastest sucessful workflow, then on the "Artifacs" link, and it will download the latest build. You need to be logged in to GitHub to download the artifacts.
+
 Alternatively, you can try using [this link](https://nightly.link/stduhpf/DelaunatorMC/workflows/build/main/Artifacts) that supposedly points to the same file. Be aware that this link is hosted by a fourth-party service (nightly.link), so use at your own risk.
 
 ### Installation.
